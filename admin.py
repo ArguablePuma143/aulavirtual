@@ -4,7 +4,7 @@ from wtforms import PasswordField
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash
 from flask_admin.menu import MenuLink
-from models import User, get_db
+from models import User, get_db, Course
 db = get_db()
 
 class AdminView(AdminIndexView):
@@ -35,7 +35,14 @@ class UserAdmin(ProtectedView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.profile in ('admin')
 
+class CourseAdmin(ProtectedView):
+    column_auto_select_related = True
+    def scaffold_form(self):
+        form_class = super(CourseAdmin, self).scaffold_form()
+        return form_class
 
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.profile in ('admin')
 
 
 admin = None
@@ -46,6 +53,7 @@ def init_admin(app):
         admin = Admin(template_mode="bootstrap3",index_view=AdminView())
         admin.init_app(app)
         admin.add_view(UserAdmin(User,db.session))
+        admin.add_view(CourseAdmin(Course, db.session) )
         admin.add_link(MenuLink(name="Logout", url="/logout"))
         admin.add_link(MenuLink(name="Go back", url="/"))
     return admin
