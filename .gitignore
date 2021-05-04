@@ -1,4 +1,4 @@
 __pychache__/*
 *.swp
 *.sqlite
-migrations/
+**/migrations/*
