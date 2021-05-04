@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime
 
 db = None
 
@@ -33,6 +34,7 @@ class User(UserMixin,db.Model): # User extends db.Model
     date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
                                        onupdate=db.func.current_timestamp())
     course = db.relationship('Course', backref='user', lazy=True)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
 class Course(UserMixin,db.Model): # User extends db.Model
     id = db.Column(db.Integer, primary_key=True)
@@ -82,5 +84,11 @@ class ParticipationRedeem(UserMixin,db.Model): # User extends db.Model
     date_created  = db.Column(db.DateTime,  default=db.func.current_timestamp())
     date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
                                        onupdate=db.func.current_timestamp())
+
+class Post(UserMixin,db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
