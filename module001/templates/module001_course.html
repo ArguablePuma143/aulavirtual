@@ -1,16 +1,6 @@
 {% extends 'module001_base.html' %}
 
-{% block content %}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-              <li><a href={{url_for('module001.module001_index')}}>Course</a></li>
-              <li><a href={{url_for('module001.module001_course')}}>Create</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+{% block content2 %}
 
     <div class="container">
       <form class="form-signin" method="POST" action="{{url_for('module001.module001_course')}}">

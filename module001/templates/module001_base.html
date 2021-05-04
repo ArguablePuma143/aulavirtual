@@ -3,13 +3,17 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
-            <div style="backgroung-color: lightgray" class="col">
-                <ul class="sidebar">
-                    <li><a href={{url_for('module001.module001_index')}}>Course</a></li>
-                    <li><a href={{url_for('module001.module001_course')}}>Create</a></li>
-                </ul>
-            </div>
+      <div class="row">
+        <div style="background-color:lightgray" class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+              <li><a href={{url_for('module001.module001_index')}}>Home</a></li>
+              <li><a href={{url_for('module001.module001_course')}}>Create</a></li>
+              <li><a href={{url_for('module001.module001_follow')}}>Following</a></li>
+          </ul>
         </div>
+        <div class="col-sm-9 col-md-10">
+            {% block content2 %} {% endblock %}
+        </div>
+      </div>
     </div>
 {% endblock %}

@@ -2,8 +2,8 @@
 
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block content %}
-    <div class="container">
+{% block content2 %}
+
         {% if itemtype == "course" %}
             <h1> Joinning details: </h1>
             <h2> {{ item.name }} </h2>
@@ -29,5 +29,4 @@
             </ul>
         {% endif %}
 
-    </div>
 {% endblock %}
