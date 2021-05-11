@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
-from models import get_db, Post
+from models import get_db, Post, Course, Follow
 from module002.forms import *
 
 db = get_db()
@@ -12,13 +12,20 @@ def module002_test():
 
 @module002.route('/', methods=['GET', 'POST'])
 def module002_index():
+    courses = Follow.query.filter(Follow.user_id == current_user.id).all()
+    return render_template('module002_index.html', courses=courses)
+
+@module002.route('/<coursecode>', methods=['GET', 'POST'])
+def module002_course(coursecode):
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.body.data,
-        author=current_user._get_current_object())
+        author=current_user._get_current_object(),
+        course_code=coursecode)
         db.session.add(post)
         db.session.commit()
-        return redirect(url_for('module002.module002_index'))
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('module002_index.html', form=form, posts=posts)
+        return redirect('/board/' + coursecode)
+    posts = Post.query.filter(Post.course_code==coursecode).order_by(Post.timestamp.desc()).all()
+    courses = Follow.query.filter(Follow.user_id == current_user.id).all()
+    return render_template('module002_course.html', form=form, posts=posts, courses=courses)
 

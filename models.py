@@ -90,5 +90,6 @@ class Post(UserMixin,db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_code = db.Column(db.String(50), db.ForeignKey('course.code'), nullable=False)
 
 

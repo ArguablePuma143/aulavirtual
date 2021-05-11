@@ -5,7 +5,10 @@
       <div class="row">
         <div style="background-color:lightgray;height: 90vh;" class="col-xs-2 col-sm-2 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-              <li><a style="color:black" href={{url_for('module002.module002_index')}}>Home</a></li>
+                <li><a style="color:black" href={{url_for('module002.module002_index')}}>Home</a></li>
+                {% for course in courses %}
+                    <li><a style="color:black" href={{ '/board/' + course.course_code }}>{{course.course_name}}</a></li>
+                {% endfor %}
           </ul>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-10">
