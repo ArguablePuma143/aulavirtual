@@ -1,31 +1,17 @@
 {% extends 'module001_base.html' %}
 
-{% block content %}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-              <li><a href={{url_for('module001.module001_index')}}>Home</a></li>
-              <li><a href={{url_for('module001.module001_course')}}>Create</a></li>
-              <li><a href={{url_for('module001.module001_follow')}}>Following</a></li>
-              <li><a href={{url_for('module001.module001_participation_generate')}}>Participation</a></li>
-              <li><a href={{url_for('module001.module001_participation_redeem')}}>Redeemed</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+{% block content2 %}
+    
 
-    <div class="container">
-      <form class="form-signin" method="POST" action="{{url_for('module001.module001_course')}}">
-        <h2 class="form-signin-heading"> Course / Institution </h2>
-        {{ form.hidden_tag() }}
-    	{{ wtf.form_field(form.id,readonly="readonly") }}
-    	{{ wtf.form_field(form.name) }}
-    	{{ wtf.form_field(form.institution_name) }}
-    	{{ wtf.form_field(form.code,readonly="readonly") }}
-
-       <button class="btn btn-lg btn-primary btn-block" type="submit"> Create or Update library </button>
-       </form>
+    <form class="form-signin" method="POST" action="{{url_for('module001.module001_course')}}">
+      <h2 class="form-signin-heading"> Course / Institution </h2>
+      {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.id,readonly="readonly") }}
+    {{ wtf.form_field(form.name) }}
+    {{ wtf.form_field(form.institution_name) }}
+    {{ wtf.form_field(form.code,readonly="readonly") }}
+     <button class="btn btn-lg btn-primary btn-block" type="submit"> Create or Update library </button>
+     </form>
 
     <br>
       <div class="table-responsive">
@@ -73,6 +59,5 @@
           </tbody>
         </table>
       </div>
-    </div>
 
 {% endblock %}
