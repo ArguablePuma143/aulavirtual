@@ -92,4 +92,21 @@ class Post(UserMixin,db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     course_code = db.Column(db.String(50), db.ForeignKey('course.code'), nullable=False)
 
+class Activity(UserMixin,db.Model): # User extends db.Model
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    description = db.Column(db.String(300))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_code = db.Column(db.String(50), db.ForeignKey('course.code'), nullable=False)
+    date_created  = db.Column(db.DateTime,  default=db.func.current_timestamp())
+    dead_line = db.Column(db.DateTime)
+
+class ActivityUpload(UserMixin,db.Model): # User extends db.Model
+    id = db.Column(db.Integer, primary_key=True)
+    activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    date_uploaded  = db.Column(db.DateTime,  default=db.func.current_timestamp())
+    grade = db.Column(db.Integer, default=None)
+    content_link = db.Column(db.String(50))
+
 
