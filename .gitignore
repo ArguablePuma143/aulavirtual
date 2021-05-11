@@ -3,12 +3,4 @@
 *.sqlite
 **/migrations/*
 __pycache__/
-__pycache__/
-__pycache__/
-__pycache__/
-__pycache__/
-__pycache__/
-__pycache__/
-module001/__pycache__/
-module001/__pycache__/
 module001/__pycache__/
