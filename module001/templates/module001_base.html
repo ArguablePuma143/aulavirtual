@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container-fluid">
       <div class="row">
-        <div style="background-color:lightgray;height: 90vh;" class="col-sm-3 col-md-2 sidebar">
+        <div style="background-color:lightgray;height: 90vh;" class="col-xs-2 col-sm-2 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a style="color:black" href={{url_for('module001.module001_index')}}>Home</a></li>
             <li><a style="color:black" href={{url_for('module001.module001_course')}}>Create</a></li>
@@ -13,7 +13,7 @@
             <li><a style="color:black" href={{url_for('module001.module001_participation_redeem')}}>Redeemed</a></li>
         </ul>
         </div>
-        <div class="col-sm-9 col-md-10">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             {% block content2 %} {% endblock %}
         </div>
       </div>
