@@ -13,7 +13,7 @@ def module002_test():
 @module002.route('/', methods=['GET', 'POST'])
 def module002_index():
     courses = Follow.query.filter(Follow.user_id == current_user.id).all()
-    return render_template('module002_index.html', courses=courses)
+    return render_template('module002_index.html', courses=courses, module="module002")
 
 @module002.route('/<coursecode>', methods=['GET', 'POST'])
 def module002_course(coursecode):
@@ -27,5 +27,6 @@ def module002_course(coursecode):
         return redirect('/board/' + coursecode)
     posts = Post.query.filter(Post.course_code==coursecode).order_by(Post.timestamp.desc()).all()
     courses = Follow.query.filter(Follow.user_id == current_user.id).all()
-    return render_template('module002_course.html', form=form, posts=posts, courses=courses)
+    actualCourse = Follow.query.filter(Follow.course_code == coursecode).first()
+    return render_template('module002_course.html', form=form, posts=posts, courses=courses, module="module002", actualCourse=actualCourse)
 
