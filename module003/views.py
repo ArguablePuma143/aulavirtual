@@ -11,7 +11,7 @@ def module003_index():
     courses = None
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
-    return render_template('module003_index.html', coursesFollowed=coursesFollowed, coursesCreated=coursesCreated)
+    return render_template('module003_index.html', coursesFollowed=coursesFollowed, coursesCreated=coursesCreated, module="module003")
 
 @module003.route('/<coursecode>', methods=['GET', 'POST'])
 def module003_course(coursecode):
@@ -36,7 +36,8 @@ def module003_course(coursecode):
          coursesCreated=coursesCreated,
          form=form, creator_id=creator_id,
          activities=activities,
-         course_code=coursecode
+         course_code=coursecode,
+         module="module003"
         )
 
 @module003.route('/<coursecode>/<activity_id>', methods=['GET', 'POST'])
