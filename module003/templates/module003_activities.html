@@ -2,7 +2,16 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content2%}
 <div>
-    {{ wtf.quick_form(form) }}
+    {% if current_user.id == creator_id%}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
+    <ul>
+        {% for activity in activities %}
+        <li><a href= {{'/assignment/' + course_code + '/' + (activity.id|string)}}> 
+            {{ activity.name }} 
+        </a></li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}

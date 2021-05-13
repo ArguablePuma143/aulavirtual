@@ -25,7 +25,21 @@ def module003_course(coursecode):
         db.session.add(activity)
         db.session.commit()
         return redirect('/assignment/' + coursecode)
-    courses = Follow.query.filter(Follow.user_id == current_user.id).all()
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
-    return render_template('module003_activities.html', coursesFollowed=coursesFollowed, coursesCreated=coursesCreated, form=form)
+
+    activities = Activity.query.filter(Activity.course_code == coursecode).all()
+
+    creator_id = Course.query.filter(Course.code == coursecode).first().user_id
+    return render_template('module003_activities.html',
+         coursesFollowed=coursesFollowed,
+         coursesCreated=coursesCreated,
+         form=form, creator_id=creator_id,
+         activities=activities,
+         course_code=coursecode
+        )
+
+@module003.route('/<coursecode>/<activity_id>', methods=['GET', 'POST'])
+def module003_activity(coursecode, activity_id):
+    activity = Activity.query.get(activity_id)
+    return render_template("module003_activity.html", activity=activity)

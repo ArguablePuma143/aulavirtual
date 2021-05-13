@@ -1,0 +1,9 @@
+{% extends 'module003_base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content2%}
+<div>
+    <p>Name: {{ activity.name }}</p>
+    <p>Description: {{ activity.description }}</p>
+    <p>Deadline: {{activity.dead_line}}</p>
+</div>
+{% endblock %}
