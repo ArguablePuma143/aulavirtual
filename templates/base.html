@@ -19,12 +19,12 @@
         {% if current_user.is_authenticated %}
               <li class={% if module=='home' %}"active"{%else%}""{%endif%}><a href="/">Home</a></li>
 
-              {% if current_user.profile in ('admin','staff','student') %}
+              {% if current_user.profile in ('admin','staff','student', 'professor') %}
                   <li class={% if module=='module001' %}"active"{%else%}""{%endif%}><a href="/course">Curso</a></li>
                   <li class={% if module=='module002' %}"active"{%else%}""{%endif%}><a href="/board">Tablero de discusión</a></li>
               {% endif %}
 
-              {% if current_user.profile in ('admin','staff','professor') %}
+              {% if current_user.profile in ('admin','staff','professor', 'student') %}
                   <li class={% if module=='module003' %}"active"{%else%}""{%endif%}><a href="/assignment">Actividades</a></li>
               {% endif %}
               {% if current_user.profile in ('admin') %}
