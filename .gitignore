@@ -4,3 +4,4 @@
 **/migrations/*
 __pycache__/
 module001/__pycache__/
+module003/subidas/
