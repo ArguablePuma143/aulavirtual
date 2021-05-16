@@ -12,7 +12,7 @@ module003 = Blueprint("module003", __name__,static_folder="static",template_fold
 db = get_db()
 app = get_app()
 
-UPLOAD_FOLDER = 'C:\\Users\\Javi\\Desktop\\Web Servidor\\proyecto\\aulavirtual\\module003\\subidas'
+UPLOAD_FOLDER = 'module003/subidas'
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -64,7 +64,7 @@ def module003_activity(coursecode, activity_id):
             file = request.files['file']
 
             filename = secure_filename(file.filename)
-            folder = UPLOAD_FOLDER + "\\{user_id}\\{course_code}\\{activity_id}".format(
+            folder = app.config["UPLOAD_FOLDER"] + "\\{user_id}\\{course_code}\\{activity_id}".format(
                 user_id=current_user.id,
                 course_code=coursecode,
                 activity_id=activity_id)
@@ -81,8 +81,10 @@ def module003_activity(coursecode, activity_id):
             db.session.add(upload)
             db.session.commit()
         except os.error as e:
-            flash("There was an error uploading your file, sorry")
+            flash("No se ha podido subir por un error en el servidor.")
             redirect("/")
+
+        flash("Se ha subido la actividad con éxito")
 
     activity = Activity.query.get(activity_id)
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
