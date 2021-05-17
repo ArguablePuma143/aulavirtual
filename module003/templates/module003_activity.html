@@ -10,9 +10,17 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12">
-        {{ wtf.quick_form(form) }}
-    </div>
+    {% if is_professor %}
+        {% for upload in uploads %}
+            <div class="col-12">
+                upload.name
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            {{ wtf.quick_form(form) }}
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}

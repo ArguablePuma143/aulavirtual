@@ -59,7 +59,7 @@ def module003_course(coursecode):
 @module003.route('/<coursecode>/<activity_id>', methods=['GET', 'POST'])
 def module003_activity(coursecode, activity_id):
     form = ActivityUploadForm()
-    if form.validate_on_submit():
+    if request.method == "POST" and form.validate_on_submit():
         try:
             file = request.files['file']
 
@@ -76,7 +76,11 @@ def module003_activity(coursecode, activity_id):
             upload = ActivityUpload(
                 user_id=current_user.id,
                 activity_id = activity_id,
-                content_link = filename)
+                content_link = "{user_id}\\{course_code}\\{activity_id}\\{filename}".format(
+                    user_id=current_user.id,
+                    course_code=coursecode,
+                    activity_id=activity_id,
+                    filename=filename))
 
             db.session.add(upload)
             db.session.commit()
@@ -86,7 +90,12 @@ def module003_activity(coursecode, activity_id):
 
         flash("Se ha subido la actividad con éxito")
 
+    
     activity = Activity.query.get(activity_id)
+    uploads = None
+    if current_user.id == activity.user_id:
+        uploads = ActivityUpload.query.filter(ActivityUpload.activity_id == activity_id).all()
+
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
 
@@ -95,4 +104,6 @@ def module003_activity(coursecode, activity_id):
                             coursesFollowed=coursesFollowed,
                             coursesCreated=coursesCreated,
                             form=form,
+                            uploads=uploads,
+                            is_professor = current_user.id == activity.user_id,
                             module="module003")
