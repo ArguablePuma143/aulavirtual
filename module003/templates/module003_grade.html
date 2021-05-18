@@ -1,0 +1,18 @@
+{% extends 'module003_base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content2%}
+
+<div class="row">
+    <div class="col-12">
+        <p>Usuario: {{ upload.username }}</p>
+        <p>Fecha de subida: {{ upload.date_uploaded }}</p>
+        <p>Contenido: 
+            <a href={{"/assignment/download/" ~ upload.id }} download>
+                {{ upload.content_link.split("\\")[-1] }}
+            </a>
+        </p>
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+{% endblock %}

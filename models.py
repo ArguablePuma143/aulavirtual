@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime
 
+from sqlalchemy.orm import backref
+
 db = None
 
 def init_db(app):
@@ -109,4 +111,5 @@ class ActivityUpload(UserMixin,db.Model): # User extends db.Model
     grade = db.Column(db.Integer, default=None)
     content_link = db.Column(db.String(50))
 
+    user = db.relationship('User', backref='activity_upload', lazy=True)
 

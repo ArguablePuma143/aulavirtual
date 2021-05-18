@@ -1,8 +1,11 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask.globals import request
+from flask.helpers import send_file
 from flask_login import login_required, current_user
-from models import get_app, get_db, Follow, Course, Activity, ActivityUpload
+from models import get_app, get_db, User, Follow, Course, Activity, ActivityUpload
 from module003.forms import *
+
+import ntpath
 import os
 from werkzeug.utils import secure_filename
 
@@ -94,7 +97,9 @@ def module003_activity(coursecode, activity_id):
     activity = Activity.query.get(activity_id)
     uploads = None
     if current_user.id == activity.user_id:
-        uploads = ActivityUpload.query.filter(ActivityUpload.activity_id == activity_id).all()
+        uploads = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link)\
+            .filter(ActivityUpload.activity_id == activity_id)\
+            .join(User, User.id == ActivityUpload.user_id).all()
 
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
@@ -106,4 +111,34 @@ def module003_activity(coursecode, activity_id):
                             form=form,
                             uploads=uploads,
                             is_professor = current_user.id == activity.user_id,
+                            module="module003")
+
+@module003.route('/download/<upload_id>')
+def download(upload_id):
+    upload = ActivityUpload.query.get(upload_id)
+
+    path = upload.content_link.replace("\\", "/")
+    
+    return send_from_directory(app.config["UPLOAD_FOLDER"], path, as_attachment=True)
+
+@module003.route('/grade/<upload_id>', methods=["GET", "POST"])
+def grade(upload_id):
+    upload = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link)\
+                    .filter(ActivityUpload.id == upload_id)\
+                    .join(User, User.id == ActivityUpload.user_id).first()
+    form = GradeForm(grade=upload.grade)
+    if request.method == "POST" and form.validate_on_submit():
+        targetUpload = ActivityUpload.query.get(upload_id)
+        targetUpload.grade = form.grade.data
+        
+        db.session.commit()
+
+    coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
+    coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
+
+    return render_template("module003_grade.html", 
+                            upload=upload,
+                            coursesCreated=coursesCreated,
+                            coursesFollowed=coursesFollowed,
+                            form=form,
                             module="module003")

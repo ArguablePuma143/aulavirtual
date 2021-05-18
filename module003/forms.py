@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, TextField, TextAreaField, DateField
 import datetime
-from wtforms.validators import Required
+from wtforms import validators
+from wtforms.fields.core import FloatField, IntegerField
+from wtforms.validators import Required, NumberRange
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'docx'}
@@ -24,3 +26,7 @@ class ActivityUploadForm(FlaskForm):
                     validators= [FileRequired(), FileAllowed(ALLOWED_EXTENSIONS, "No se permite esa extensión")], 
                     description="Entrega tu archivo")
     submit = SubmitField("Entregar")
+
+class GradeForm(FlaskForm):
+    grade = FloatField("Pon la nota aquí", validators=[NumberRange(min=0, max=10, message='Invalid length')])
+    submit = SubmitField("Submit")

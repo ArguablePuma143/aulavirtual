@@ -13,7 +13,8 @@
     {% if is_professor %}
         {% for upload in uploads %}
             <div class="col-12">
-                upload.name
+                <p>{{ upload.username }} </p>
+                <a href={{"/assignment/grade/" ~ upload.id }}> {{ upload.content_link.split("\\")[-1] }}</a>
             </div>
         {% endfor %}
     {% else %}
