@@ -11,7 +11,11 @@
                 {{ upload.content_link.split("\\")[-1] }}
             </a>
         </p>
+        {% if is_creator %}
         {{ wtf.quick_form(form) }}
+        {% else %}
+        <p> Su nota: {{ upload.grade if upload.grade != None else "No calificado"}}</p>
+        {% endif %}
     </div>
 </div>
 

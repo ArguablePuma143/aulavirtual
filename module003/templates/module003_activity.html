@@ -13,12 +13,20 @@
     {% if is_professor %}
         {% for upload in uploads %}
             <div class="col-12">
-                <p>{{ upload.username }} </p>
-                <a href={{"/assignment/grade/" ~ upload.id }}> {{ upload.content_link.split("\\")[-1] }}</a>
+                <div><a href={{"/assignment/grade/" ~ upload.id }}> Entrega de {{upload.username}} a las: {{ upload.date_uploaded }} </a></div>
             </div>
         {% endfor %}
     {% else %}
+        {% if student_uploads %}
         <div class="col-12">
+            <p><b> Entregas ya hechas </b></p>
+            {% for upload in student_uploads %}
+            <div><a href={{"/assignment/grade/" ~ upload.id }}> Entrega del: {{ upload.date_uploaded }} </a></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="col-12">
+            <p><b> Crea una nueva entrega</b></p>
             {{ wtf.quick_form(form) }}
         </div>
     {% endif %}

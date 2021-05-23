@@ -96,10 +96,16 @@ def module003_activity(coursecode, activity_id):
     
     activity = Activity.query.get(activity_id)
     uploads = None
+    student_uploads = None
     if current_user.id == activity.user_id:
         uploads = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link)\
             .filter(ActivityUpload.activity_id == activity_id)\
             .join(User, User.id == ActivityUpload.user_id).all()
+    else:
+        student_uploads = ActivityUpload.query.filter(
+            ActivityUpload.user_id == current_user.id,
+            ActivityUpload.activity_id == activity_id
+            )
 
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
@@ -111,6 +117,7 @@ def module003_activity(coursecode, activity_id):
                             form=form,
                             uploads=uploads,
                             is_professor = current_user.id == activity.user_id,
+                            student_uploads=student_uploads,
                             module="module003")
 
 @module003.route('/download/<upload_id>')
@@ -123,7 +130,7 @@ def download(upload_id):
 
 @module003.route('/grade/<upload_id>', methods=["GET", "POST"])
 def grade(upload_id):
-    upload = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link)\
+    upload = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link, ActivityUpload.activity_id)\
                     .filter(ActivityUpload.id == upload_id)\
                     .join(User, User.id == ActivityUpload.user_id).first()
     form = GradeForm(grade=upload.grade)
@@ -136,9 +143,12 @@ def grade(upload_id):
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
 
+    activity = Activity.query.get(upload.activity_id)
+
     return render_template("module003_grade.html", 
                             upload=upload,
                             coursesCreated=coursesCreated,
                             coursesFollowed=coursesFollowed,
                             form=form,
+                            is_creator= current_user.id == activity.user_id,
                             module="module003")
