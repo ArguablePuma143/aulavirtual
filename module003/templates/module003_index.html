@@ -11,7 +11,7 @@
 	<ul class="list-group">
 	{% for activity in activities %}
 	{% if activity.id not in current_user_completed_activities %}
-	<li class="list-group-item"><a href={{"/assignment/" + activity.course_code + "/" ~ activity.id}}>{{ activity.dead_line }} - {{activity.name}}</a></li>
+	<li class="list-group-item"><a href={{"/assignment/" + activity.course_code + "/" ~ activity.id}}>{{activity.course_code}}:{{ activity.dead_line }} - {{activity.name}}</a></li>
 	{% endif %}
 	{% endfor %}
 	</ul>

@@ -33,7 +33,7 @@ def module003_index():
     current_user_completed_activities = [ upload.activity_id for upload in ActivityUpload.query.filter(ActivityUpload.user_id == current_user.id)]
     print(current_user_completed_activities)
     
-    activities = Activity.query.filter( Activity.course_code.in_(codes), Activity.id ).all()
+    activities = Activity.query.filter( Activity.course_code.in_(codes)).all()
 
 
     return render_template('module003_index.html',
