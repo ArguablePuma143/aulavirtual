@@ -2,27 +2,29 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content2%}
 
-<div class="row">
-    <div class="col-12">
-        <p>Name: {{ activity.name }}</p>
-        <p>Description: {{ activity.description }}</p>
-        <p>Deadline: {{activity.dead_line}}</p>
-    </div>
+<div class="panel panel-default" style="margin-top: 20px;">
+        <div class="panel-heading"><span style="font-weight: bold;">Nombre:</span> {{ activity.name }}</div>
+        <div class="panel-body"><span style="font-weight: bold;">Descripción:</span> {{ activity.description }}</div>
+        <div class="panel-footer"><span style="font-weight: bold;">Fecha límite:</span> {{activity.dead_line}}</div>
 </div>
-<div class="row">
+<div class="row" style="padding: 0px 20px 20px 20px;">
     {% if is_professor %}
+        <h1> Bienvenido profesor</h1>
         {% for upload in uploads %}
             <div class="col-12">
-                <div><a href={{"/assignment/grade/" ~ upload.id }}> Entrega de {{upload.username}} a las: {{ upload.date_uploaded }} </a></div>
+                <div><a href={{"/assignment/grade/" ~ upload.id }}> Entrega de {{upload.name}} a las: {{ upload.date_uploaded }} </a></div>
             </div>
         {% endfor %}
     {% else %}
+        <h1> Bienvenido alumno</h1>
         {% if student_uploads %}
         <div class="col-12">
             <p><b> Entregas ya hechas </b></p>
+            <ul class="list-group">
             {% for upload in student_uploads %}
-            <div><a href={{"/assignment/grade/" ~ upload.id }}> Entrega del: {{ upload.date_uploaded }} </a></div>
+                <li class="list-group-item"><a href={{"/assignment/grade/" ~ upload.id }}> Entrega a las: {{ upload.date_uploaded }} </a></li>
             {% endfor %}
+            </ul>
         </div>
         {% endif %}
         <div class="col-12">

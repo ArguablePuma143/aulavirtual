@@ -104,7 +104,7 @@ def module003_activity(coursecode, activity_id):
 
         flash("Se ha subido la actividad con éxito")
 
-    
+
     activity = Activity.query.get(activity_id)
     uploads = None
     student_uploads = None
@@ -121,13 +121,13 @@ def module003_activity(coursecode, activity_id):
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
 
-    return render_template("module003_activity.html", 
+    return render_template("module003_activity.html",
                             activity=activity,
                             coursesFollowed=coursesFollowed,
                             coursesCreated=coursesCreated,
                             form=form,
                             uploads=uploads,
-                            is_professor = current_user.id == activity.user_id,
+                            is_professor = True if current_user.id == activity.user_id else False,
                             student_uploads=student_uploads,
                             module="module003")
 
@@ -137,7 +137,7 @@ def download(upload_id):
     upload = ActivityUpload.query.get(upload_id)
 
     path = upload.content_link.replace("\\", "/")
-    
+
     return send_from_directory(app.config["UPLOAD_FOLDER"], path, as_attachment=True)
 
 @module003.route('/grade/<upload_id>', methods=["GET", "POST"])
@@ -150,7 +150,7 @@ def grade(upload_id):
     if request.method == "POST" and form.validate_on_submit():
         targetUpload = ActivityUpload.query.get(upload_id)
         targetUpload.grade = form.grade.data
-        
+
         db.session.commit()
 
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
@@ -158,7 +158,7 @@ def grade(upload_id):
 
     activity = Activity.query.get(upload.activity_id)
 
-    return render_template("module003_grade.html", 
+    return render_template("module003_grade.html",
                             upload=upload,
                             coursesCreated=coursesCreated,
                             coursesFollowed=coursesFollowed,

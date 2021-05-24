@@ -16,17 +16,17 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class PostForm(FlaskForm):
-    name = TextField("Name of the activity", validators=[Required()])
-    description = TextAreaField("Description of the activity")
+    name = TextField("Nombre de la actividad", validators=[Required()])
+    description = TextAreaField("Descripción de la actividad")
     deadline = DateField("Fecha límite de entrega", format="%d-%m-%Y %H:%M", default=datetime.datetime.today)
-    submit = SubmitField('Submit')
+    submit = SubmitField('Enviar')
 
 class ActivityUploadForm(FlaskForm):
-    file = FileField("Put your file here", 
-                    validators= [FileRequired(), FileAllowed(ALLOWED_EXTENSIONS, "No se permite esa extensión")], 
+    file = FileField("PSube tu archivo",
+                    validators= [FileRequired(), FileAllowed(ALLOWED_EXTENSIONS, "No se permite esa extensión")],
                     description="Entrega tu archivo")
     submit = SubmitField("Entregar")
 
 class GradeForm(FlaskForm):
     grade = FloatField("Pon la nota aquí", validators=[NumberRange(min=0, max=10, message='Invalid length')])
-    submit = SubmitField("Submit")
+    submit = SubmitField("Enviar")

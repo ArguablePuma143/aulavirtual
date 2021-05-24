@@ -2,21 +2,25 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content2%}
 
-<div class="row">
-    <div class="col-12">
-        <p>Usuario: {{ upload.username }}</p>
-        <p>Fecha de subida: {{ upload.date_uploaded }}</p>
-        <p>Contenido: 
+<div class="panel panel-default" style="margin: 20px">
+    <div class="panel-heading">
+        <p><span style="font-weight: bold;">Usuario: </span>{{ upload.username }}</p>
+        <p><span style="font-weight: bold;">Fecha de subida: </span>{{ upload.date_uploaded }}</p>
+    </div>
+    <div class="panel-body">
+        <p><span style="font-weight: bold;">Contenido: </span>
             <a href={{"/assignment/download/" ~ upload.id }} download>
                 {{ upload.content_link.split("\\")[-1] }}
             </a>
         </p>
+    </div>
+</div>
         {% if is_creator %}
         {{ wtf.quick_form(form) }}
         {% else %}
-        <p> Su nota: {{ upload.grade if upload.grade != None else "No calificado"}}</p>
+        <h3 style="font-weight: bold; margin:20px;"> Su nota: {{ upload.grade if upload.grade != None else "No calificado"}}</h3>
         {% endif %}
-    </div>
-</div>
+
+
 
 {% endblock %}
