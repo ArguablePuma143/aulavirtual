@@ -2,10 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content2%}
 <div>
-    <h1>Crear nueva actividad</h1>
+    <h1>{{course_name}}</h1>
     {% if current_user.id == creator_id%}
+        <h2>Crear nueva actividad</h2>
         {{ wtf.quick_form(form) }}
     {% endif %}
+    <hr/>
+    <h2> Lista de actividades </h2>
     <ul class="list-group" style="margin-top: 10px;">
         {% for activity in activities %}
         <li class="list-group-item"><a href= {{'/assignment/' + course_code + '/' + (activity.id|string)}}>

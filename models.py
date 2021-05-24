@@ -112,4 +112,4 @@ class ActivityUpload(UserMixin,db.Model): # User extends db.Model
     content_link = db.Column(db.String(50))
 
     user = db.relationship('User', backref='activity_upload', lazy=True)
-
+    activity = db.relationship('Activity', backref="activity_upload", lazy=True)

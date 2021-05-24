@@ -6,4 +6,14 @@
 	Bienvenido a la sección de actividades, aquí podrás seleccionar un curso que estés siguiendo o hayas creado
 	y acceder a su contenido
 </span>
+<div class="row" style="margin: 20px;">
+	<h2> Actividades pendientes</h2>
+	<ul class="list-group">
+	{% for activity in activities %}
+	{% if activity.id not in current_user_completed_activities %}
+	<li class="list-group-item"><a href={{"/assignment/" + activity.course_code + "/" ~ activity.id}}>{{ activity.dead_line }} - {{activity.name}}</a></li>
+	{% endif %}
+	{% endfor %}
+	</ul>
+</div>
 {% endblock %} 

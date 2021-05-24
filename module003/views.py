@@ -30,15 +30,17 @@ def module003_index():
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
 
     codes = [ course.course_code for course in coursesFollowed]
-    current_user_uploads = [ upload.activity_id for upload in ActivityUpload.query.filter(ActivityUpload.user_id == current_user.id)]
-    print(current_user_uploads)
+    current_user_completed_activities = [ upload.activity_id for upload in ActivityUpload.query.filter(ActivityUpload.user_id == current_user.id)]
+    print(current_user_completed_activities)
     
-    activities = Activity.query.filter( Activity.course_code.in_(codes) ).all()
+    activities = Activity.query.filter( Activity.course_code.in_(codes), Activity.id ).all()
+
 
     return render_template('module003_index.html',
                 coursesFollowed=coursesFollowed,
                 coursesCreated=coursesCreated,
-                pendings=activities,
+                activities=activities,
+                current_user_completed_activities=current_user_completed_activities,
                 module="module003")
 
 @module003.route('/<coursecode>', methods=['GET', 'POST'])
@@ -59,13 +61,17 @@ def module003_course(coursecode):
 
     activities = Activity.query.filter(Activity.course_code == coursecode).all()
 
+    course = Course.query.filter( Course.code == coursecode).first()
+    coursename = course.name
     creator_id = Course.query.filter(Course.code == coursecode).first().user_id
     return render_template('module003_activities.html',
          coursesFollowed=coursesFollowed,
          coursesCreated=coursesCreated,
-         form=form, creator_id=creator_id,
+         form=form,
+         creator_id=creator_id,
          activities=activities,
          course_code=coursecode,
+         course_name = coursename,
          module="module003"
         )
 
