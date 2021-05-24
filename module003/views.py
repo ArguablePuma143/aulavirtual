@@ -84,7 +84,7 @@ def module003_activity(coursecode, activity_id):
             file = request.files['file']
 
             filename = secure_filename(file.filename)
-            folder = app.config["UPLOAD_FOLDER"] + "\\{user_id}\\{course_code}\\{activity_id}".format(
+            folder = app.config["UPLOAD_FOLDER"] + "/{user_id}/{course_code}/{activity_id}".format(
                 user_id=current_user.id,
                 course_code=coursecode,
                 activity_id=activity_id)
@@ -96,7 +96,7 @@ def module003_activity(coursecode, activity_id):
             upload = ActivityUpload(
                 user_id=current_user.id,
                 activity_id = activity_id,
-                content_link = "{user_id}\\{course_code}\\{activity_id}\\{filename}".format(
+                content_link = "{user_id}/{course_code}/{activity_id}/{filename}".format(
                     user_id=current_user.id,
                     course_code=coursecode,
                     activity_id=activity_id,
