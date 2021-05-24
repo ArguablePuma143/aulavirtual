@@ -32,7 +32,7 @@ def login():
             elif user.confirmed:
                 login_user(user, remember=form.remember.data)
                 flash("Welcome back {}".format(current_user.username))
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('index'))
             else:
                 flash("User not confirmed. Please visit your email to confirm your user.")
 
@@ -126,12 +126,6 @@ def logout():
     flash("See you soon {}".format(current_user.username))
     logout_user()
     return redirect(url_for('index'))
-
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html',module="home")
 
 
 @app.route('/')
