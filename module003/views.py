@@ -23,16 +23,26 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @module003.route('/', methods=['GET', 'POST'])
+@login_required
 def module003_index():
     courses = None
     coursesCreated = Course.query.filter(Course.user_id == current_user.id).all()
     coursesFollowed = Follow.query.filter(Follow.user_id == current_user.id).all()
+
+    codes = [ course.course_code for course in coursesFollowed]
+    current_user_uploads = [ upload.activity_id for upload in ActivityUpload.query.filter(ActivityUpload.user_id == current_user.id)]
+    print(current_user_uploads)
+    
+    activities = Activity.query.filter( Activity.course_code.in_(codes) ).all()
+
     return render_template('module003_index.html',
                 coursesFollowed=coursesFollowed,
                 coursesCreated=coursesCreated,
+                pendings=activities,
                 module="module003")
 
 @module003.route('/<coursecode>', methods=['GET', 'POST'])
+@login_required
 def module003_course(coursecode):
     form = PostForm()
     if form.validate_on_submit():
@@ -60,6 +70,7 @@ def module003_course(coursecode):
         )
 
 @module003.route('/<coursecode>/<activity_id>', methods=['GET', 'POST'])
+@login_required
 def module003_activity(coursecode, activity_id):
     form = ActivityUploadForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -121,6 +132,7 @@ def module003_activity(coursecode, activity_id):
                             module="module003")
 
 @module003.route('/download/<upload_id>')
+@login_required
 def download(upload_id):
     upload = ActivityUpload.query.get(upload_id)
 
@@ -129,6 +141,7 @@ def download(upload_id):
     return send_from_directory(app.config["UPLOAD_FOLDER"], path, as_attachment=True)
 
 @module003.route('/grade/<upload_id>', methods=["GET", "POST"])
+@login_required
 def grade(upload_id):
     upload = db.session.query(ActivityUpload.id, User.username, ActivityUpload.user_id, ActivityUpload.date_uploaded, ActivityUpload.grade, ActivityUpload.content_link, ActivityUpload.activity_id)\
                     .filter(ActivityUpload.id == upload_id)\
