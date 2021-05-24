@@ -1,0 +1,25 @@
+df.printSchema() -> para ver que todas las columnas tienen el formato correcto
+type(df) -> Asegurarnos que sea tipo Spark
+df.columns -> ver las columnas
+
+// Cambiar el orden del filter o el select si va muy lento
+df.filter(df['ocean_proximity']=='NEAR BAY').select('ocean_proximity','longitude','latitude','housing_median_age').show()
+
+// CLASE DÍA 16 - ADVANCED SPARK - Acumulador
+
+Spark ha creado una "variable global". El worker tiene task escritas en este caso python, y éste python tiene que escribir las variables en java. Hya dos variables,
+el acumulador (sólo escritura) y el broadcast (sólo lectura).
+
+
+// CLASE DÍA 17 - ADVANCED SPARK - Broadcast, API y R
+Cuando el objeto que hay que leer(broadcast) es muy grande, mejor que dividir ese objeto entre todos los workers, es mejor hacen una petición a una API cada vez
+PoolManager -> gestiona las peticiones
+Ejecutar un script
+.local/bin/spark-submit mypythonfile.py 2> erro.log
+
+Preguntas teóricas Spark teóricas
+¿Qué es una ventana temporal?
+
+// CLASE DÍA 13 DE MAYO - Clustering
+Es no supervisada. La silueta va de -1 a 1 y cuanto más cerca del 1, más preciso. La k es en los grupos que va a agrupar
+
