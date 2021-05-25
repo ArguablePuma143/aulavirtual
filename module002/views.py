@@ -7,15 +7,18 @@ db = get_db()
 module002 = Blueprint("module002", __name__,static_folder="static",template_folder="templates")
 
 @module002.route('/test')
+@login_required
 def module002_test():
     return 'OK'
 
 @module002.route('/', methods=['GET', 'POST'])
+@login_required
 def module002_index():
     courses = Follow.query.filter(Follow.user_id == current_user.id).all()
     return render_template('module002_index.html', courses=courses, module="module002")
 
 @module002.route('/<coursecode>', methods=['GET', 'POST'])
+@login_required
 def module002_course(coursecode):
     form = PostForm()
     if form.validate_on_submit():

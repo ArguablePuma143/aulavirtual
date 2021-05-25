@@ -6,7 +6,7 @@ from wtforms.fields.core import FloatField, IntegerField
 from wtforms.validators import Required, NumberRange
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'docx'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'docx', 'zip'}
 def allowed_file(filename):
     """
     @params: filename - name to be filtered
